@@ -54,23 +54,27 @@ Islands are **weakly connected components** discovered by graph analysis - group
 ```
 
 ### Components
+#### Dev Environment
+- **Dev Containers**: Isolated Docker environment with Python 3.14 support and Neo4j 5.15 graph database
+- **Claude Code** and **DeepSeek 3.2**: Coding Assistence in a sandboxed environment
 
-- **DevContainer**: Isolated Docker environment with Python 3.10 and Neo4j 5.x
-- **Neo4j**: Graph database with APOC and Graph Data Science (GDS) plugins
+#### Analysis Environment
 - **Jupyter Notebook**: Interactive analysis environment (`rpg_dependency_analyzer.ipynb`)
+- **Neo4j**: Graph database with APOC and Graph Data Science (GDS) plugins
+
 
 ## Features
 
 ### Universal RPG Parser
 
-The notebook includes a comprehensive parser that handles:
+The notebook includes a comprehensive parser that handles in most naive ways:
 
 - **Fixed-format RPG** (Column 7-based syntax with F-specs)
 - **Free-format RPG** (`**FREE` directive)
 - **Mixed-mode** (`/FREE` and `/END-FREE` blocks)
 - **SQL/RPG** (Embedded SQL statements)
 
-### Extracted Relationships
+### Extracted Relationships / Graph DB Schema
 
 | Relationship Type | Source → Target | Extracted From |
 |-------------------|-----------------|----------------|
@@ -115,7 +119,14 @@ Each relationship tracks the **line numbers** where dependencies occur for easy 
    jupyter notebook rpg_dependency_analyzer.ipynb
    ```
 
-### Usage
+   or
+
+   ```
+   jupyter notebook
+   ```
+   and open shown url in the console output with the access token
+
+### Steps / Usage
 
 Execute the notebook cells in order:
 
@@ -127,7 +138,7 @@ Execute the notebook cells in order:
 
 ### Analyzing Results
 
-After running the analysis, explore the graph in Neo4j Browser at `http://localhost:7474`:
+After running the analysis, explore the graph in Neo4j Browser at `http://localhost:7474` (User: neo4j, Password: password)
 
 ![Island Detail View](details.png)
 
@@ -136,9 +147,9 @@ After running the analysis, explore the graph in Neo4j Browser at `http://localh
 #### Example Cypher Queries
 
 ```cypher
-// View all islands and their members
+// View all islands and their members (maybe at LIMIT 50 at the end)
 MATCH (i:Island)<-[:PART_OF]-(n)
-RETURN i, n LIMIT 50
+RETURN i, n
 
 // Find the largest island
 MATCH (i:Island)<-[:PART_OF]-(n)
@@ -164,7 +175,8 @@ rpgisland/
 │   ├── devcontainer.json   # VS Code container settings
 │   ├── docker-compose.yml  # Neo4j + Python services
 │   ├── Dockerfile          # Python container image
-│   └── init-firewall.sh    # Network setup script
+|   ├── init-firewall.sh    # Firewall setup script (since we are using a LLM with 'claude --dangerously-skip-permissions')
+│   └── post-start-setup.sh # Setting up environment 
 ├── src/                    # Place your RPG source files here
 ├── rpg_dependency_analyzer.ipynb  # Main analysis notebook
 ├── requirements.txt        # Python dependencies
