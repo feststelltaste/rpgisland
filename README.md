@@ -4,7 +4,7 @@ A Jupyter Notebook-based **prototype tool** for analyzing legacy RPG codebases b
 
 ![Complete Island Overview](overview.png)
 
-*Example output: Multiple isolated "islands" of varying sizes. Each cluster represents a subsystem with internal dependencies but no connections to other parts of the codebase. In this example, there are 264 nodes (programs and tables) organized into distinct islands.*
+*Example output: Multiple isolated "islands" of varying sizes. Each cluster represents a subsystem with internal dependencies but no connections to other parts of the codebase.*
 
 > **Note**: This is an experimental prototype. The parser uses regex-based pattern matching and may require improvements and customization for real-world RPG legacy codebases with complex syntax variations, non-standard formatting, or vendor-specific extensions.
 
