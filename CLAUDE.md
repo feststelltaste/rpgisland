@@ -1,7 +1,7 @@
-# Project Context: RPG Dependency Graph Analyzer with Island Detection
+# Project Context: RPG Dependency Graph Analyzer with Island Detection and AI Analysis
 
 ## 1. Mission
-Build and enhance a Jupyter Notebook tool that parses legacy source code and loads it into Neo4j for cluster analysis. 
+Build and enhance a Jupyter Notebook tool that parses legacy RPG source code, loads it into Neo4j for cluster analysis (island detection), and uses AI (DeepSeek) to automatically analyze and name each discovered island. 
 
 ## 2. Project Structure
 ```text
@@ -11,8 +11,9 @@ Build and enhance a Jupyter Notebook tool that parses legacy source code and loa
 │   ├── docker-compose.yml 
 |   ├── Dockerfile    
 │   └── <setup scripts>             
-├── src/ # Source Code (Simulated Repo)
-├── rpg_dependency_analyzer.ipynb # THE OUTPUT (Create this)
+├── src/ # Source Code (RPG files to analyze)
+├── tests/ # Test suite for parser functions
+├── rpg_dependency_analyzer.ipynb # Main analysis notebook
 ├── requirements.txt           # Dependencies
 └── CLAUDE.md                  # Context (This file)
 

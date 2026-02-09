@@ -23,7 +23,8 @@ This tool works by:
 1. Parsing RPG source files to extract dependencies
 2. Building a graph database representation in Neo4j
 3. Running cluster analysis (Weakly Connected Components) to identify "islands"
-4. Visualizing which parts of your system are naturally separated
+4. Using AI (DeepSeek) to analyze and name each island based on its source code
+5. Visualizing which parts of your system are naturally separated
 
 ## What Are "Islands"?
 
@@ -39,18 +40,22 @@ Islands are **weakly connected components** discovered by graph analysis - group
 ## Architecture
 
 ```
-┌─────────────────┐
-│  Jupyter        │
-│  Notebook       │ ──> Parses RPG Files
-└────────┬────────┘
-         │
-         │ Neo4j Driver
-         ▼
-┌─────────────────┐
-│  Neo4j Graph    │
-│  Database       │ ──> Runs GDS Algorithms
+┌─────────────────┐      ┌──────────────┐
+│  Jupyter        │      │  DeepSeek    │
+│  Notebook       │─────▶│  API         │
+│  (Python)       │      │  (AI)        │
+└────────┬────────┘      └──────────────┘
+         │                       │
+         │ Neo4j Driver          │
+         ▼                       ▼
+┌─────────────────┐      Analyzes & Names
+│  Neo4j Graph    │      Islands from
+│  Database       │      Source Code
 │  + APOC + GDS   │
 └─────────────────┘
+         │
+         └─> Runs GDS Algorithms
+             (Island Detection)
 ```
 
 ### Components
@@ -73,6 +78,18 @@ The notebook includes a comprehensive parser that handles the most common cases:
 - **Free-format RPG** (`**FREE` directive)
 - **Mixed-mode** (`/FREE` and `/END-FREE` blocks)
 - **SQL/RPG** (Embedded SQL statements)
+- **Dynamic SQL** (SQL statements in string literals)
+
+### AI-Powered Island Analysis
+
+Phase 7 uses DeepSeek API to automatically analyze each island:
+
+- **Automatic naming**: Generates descriptive 2-5 word names for each island
+- **Functionality summaries**: Provides 2-3 sentence descriptions of what each island does
+- **Source code analysis**: Reads actual RPG source files and analyzes their purpose
+- **Neo4j integration**: Stores AI-generated names and summaries back in the graph database
+
+This helps quickly understand what each isolated component cluster is responsible for without manually reading through all the code.
 
 ### Extracted Relationships / Graph DB Schema
 
@@ -106,7 +123,13 @@ Each relationship tracks the **line numbers** where dependencies occur for easy 
    # In VS Code: Ctrl+Shift+P → "Reopen in Container"
    ```
 
-3. Place your RPG source files in the `./src` directory:
+3. Set up environment variables for AI analysis (optional but recommended):
+   ```bash
+   export DEEPSEEK_API_KEY='your-deepseek-api-key'
+   export DEEPSEEK_BASE_URL='https://api.deepseek.com'  # optional, this is the default
+   ```
+
+4. Place your RPG source files in the `./src` directory:
    ```
    ./src/
    ├── program1.rpgle
@@ -114,7 +137,7 @@ Each relationship tracks the **line numbers** where dependencies occur for easy 
    └── utils.rpg
    ```
 
-4. Open and run the notebook:
+5. Open and run the notebook:
    ```bash
    jupyter notebook rpg_dependency_analyzer.ipynb
    ```
@@ -130,11 +153,13 @@ Each relationship tracks the **line numbers** where dependencies occur for easy 
 
 Execute the notebook cells in order:
 
-1. **Cell 1**: Configuration and environment setup
-2. **Cell 2**: Parse RPG files and extract dependencies
-3. **Cell 3**: Load data into Neo4j with relationship tracking
-4. **Cell 4**: Run Weakly Connected Components (WCC) analysis
-5. **Cell 5**: Mark all nodes (Programs, Tables, Files) with island IDs
+1. **Phase 1**: Configuration and environment setup
+2. **Phase 2**: Parse RPG files and extract dependencies
+3. **Phase 3**: Load data into Neo4j with relationship tracking
+4. **Phase 4**: Run Weakly Connected Components (WCC) analysis
+5. **Phase 5**: Mark all nodes (Programs, Tables, Files) with island IDs
+6. **Phase 6**: Verify graph structure and explore with sample queries
+7. **Phase 7**: AI-powered island analysis (generates descriptive names and summaries for each island)
 
 ### Analyzing Results
 
@@ -165,6 +190,14 @@ MATCH (i:Island)<-[:PART_OF]-(p:Program)
 WITH i.id AS IslandID, count(p) AS ProgramCount
 WHERE ProgramCount = 1
 RETURN IslandID, ProgramCount
+
+// View islands with AI-generated names and summaries
+MATCH (i:Island)
+RETURN i.island_id AS IslandID,
+       i.ai_name AS Name,
+       i.ai_summary AS Summary,
+       i.size AS Size
+ORDER BY i.size DESC
 ```
 
 ## Project Structure

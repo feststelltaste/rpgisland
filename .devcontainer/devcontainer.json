@@ -26,6 +26,7 @@
     }
   },
   "containerEnv": {
+    "DEEPSEEK_API_KEY": "${localEnv:DEEPSEEK_API_KEY}",
     "NODE_OPTIONS": "--max-old-space-size=4096",
     "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
     "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
