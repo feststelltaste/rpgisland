@@ -7,6 +7,8 @@
     "source=claude-code-bashhistory-${devcontainerId},target=/home/vscode/commandhistory,type=volume",
     "source=claude-code-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
   ],
+  "forwardPorts":
+    [8888, 7474],
   "customizations": {
     "vscode": {
       "extensions": [
