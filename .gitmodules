@@ -1,0 +1,6 @@
+[submodule "src/rpgleparser"]
+	path = src/rpgleparser
+	url = https://github.com/rpgleparser/rpgleparser.git
+[submodule "src/IBM-i-RPG-Free-CLP-Code"]
+	path = src/IBM-i-RPG-Free-CLP-Code
+	url = https://github.com/SJLennon/IBM-i-RPG-Free-CLP-Code
