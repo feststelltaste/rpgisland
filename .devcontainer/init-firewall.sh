@@ -57,6 +57,7 @@ DOMAINS=(
     "registry.npmjs.org" "registry.yarnpkg.com" # Node
     "api.deepseek.com" "api.anthropic.com"    # AI APIs
     "marketplace.visualstudio.com"            # VS Code
+    "graphdatascience.ninja"                  # Neo4j GDS Updates
     "vscode.blob.core.windows.net"
     "update.code.visualstudio.com"
     "deb.debian.org" "security.debian.org"    # OS Updates
