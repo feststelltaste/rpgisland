@@ -1,4 +1,4 @@
-# Start with Python 3.10
+# Start with latetst Python image from Microsoft Dev Containers
 FROM mcr.microsoft.com/devcontainers/python:3
 
 # 1. Install System Dependencies
