@@ -1,5 +1,5 @@
 # Start with Python 3.10
-FROM mcr.microsoft.com/devcontainers/python:3.14-bookworm
+FROM mcr.microsoft.com/devcontainers/python:3
 
 # 1. Install System Dependencies
 RUN apt-get update && apt-get install -y \
