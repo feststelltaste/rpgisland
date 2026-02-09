@@ -56,7 +56,7 @@ Islands are **weakly connected components** discovered by graph analysis - group
 ### Components
 #### Dev Environment
 - **Dev Containers**: Isolated Docker environment with Python 3.14 support and Neo4j 5.15 graph database
-- **Claude Code** and **DeepSeek 3.2**: Coding Assistence in a sandboxed environment
+- **Claude Code** and **DeepSeek 3.2**: Coding assistance in a sandboxed environment
 
 #### Analysis Environment
 - **Jupyter Notebook**: Interactive analysis environment (`rpg_dependency_analyzer.ipynb`)
@@ -67,7 +67,7 @@ Islands are **weakly connected components** discovered by graph analysis - group
 
 ### Universal RPG Parser
 
-The notebook includes a comprehensive parser that handles in most naive ways:
+The notebook includes a comprehensive parser that handles the most common cases:
 
 - **Fixed-format RPG** (Column 7-based syntax with F-specs)
 - **Free-format RPG** (`**FREE` directive)
@@ -138,7 +138,7 @@ Execute the notebook cells in order:
 
 ### Analyzing Results
 
-After running the analysis, explore the graph in Neo4j Browser at `http://localhost:7474` (User: neo4j, Password: password)
+After running the analysis, explore the graph in Neo4j Browser at `http://localhost:7474` (username: `neo4j`, password: `password`)
 
 ![Island Detail View](details.png)
 
@@ -147,7 +147,7 @@ After running the analysis, explore the graph in Neo4j Browser at `http://localh
 #### Example Cypher Queries
 
 ```cypher
-// View all islands and their members (maybe at LIMIT 50 at the end)
+// View all islands and their members (optionally add LIMIT 50)
 MATCH (i:Island)<-[:PART_OF]-(n)
 RETURN i, n
 
@@ -175,8 +175,8 @@ rpgisland/
 │   ├── devcontainer.json   # VS Code container settings
 │   ├── docker-compose.yml  # Neo4j + Python services
 │   ├── Dockerfile          # Python container image
-|   ├── init-firewall.sh    # Firewall setup script (since we are using a LLM with 'claude --dangerously-skip-permissions')
-│   └── post-start-setup.sh # Setting up environment 
+│   ├── init-firewall.sh    # Firewall setup script (since we are using an LLM with 'claude --dangerously-skip-permissions')
+│   └── post-start-setup.sh # Environment setup script 
 ├── src/                    # Place your RPG source files here
 ├── rpg_dependency_analyzer.ipynb  # Main analysis notebook
 ├── requirements.txt        # Python dependencies
