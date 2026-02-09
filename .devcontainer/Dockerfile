@@ -1,5 +1,5 @@
-# Start with latetst Python image from Microsoft Dev Containers
-FROM mcr.microsoft.com/devcontainers/python:3
+# Start with latetst Python 3.14 image from Microsoft Dev Containers
+FROM mcr.microsoft.com/devcontainers/python:3.14-bookworm
 
 # 1. Install System Dependencies
 RUN apt-get update && apt-get install -y \
