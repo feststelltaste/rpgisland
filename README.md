@@ -2,6 +2,10 @@
 
 A Jupyter Notebook-based **prototype tool** for analyzing legacy RPG codebases by building a dependency graph in Neo4j and detecting "islands" of isolated code.
 
+![Complete Island Overview](overview.png)
+
+*Example output: Multiple isolated "islands" of varying sizes. Each cluster represents a subsystem with internal dependencies but no connections to other parts of the codebase. In this example, there are 264 nodes (programs and tables) organized into distinct islands.*
+
 > **Note**: This is an experimental prototype. The parser uses regex-based pattern matching and may require improvements and customization for real-world RPG legacy codebases with complex syntax variations, non-standard formatting, or vendor-specific extensions.
 
 ## Purpose
@@ -20,10 +24,6 @@ This tool works by:
 2. Building a graph database representation in Neo4j
 3. Running cluster analysis (Weakly Connected Components) to identify "islands"
 4. Visualizing which parts of your system are naturally separated
-
-![Complete Island Overview](overview.png)
-
-*Example output: Multiple isolated "islands" of varying sizes. Each cluster represents a subsystem with internal dependencies but no connections to other parts of the codebase. In this example, there are 264 nodes (programs and tables) organized into distinct islands.*
 
 ## What Are "Islands"?
 
@@ -249,6 +249,10 @@ Areas where help is needed:
 - Additional RPG language support (more opcodes, edge cases)
 - Enhanced visualization options
 - Performance optimization for large codebases
+
+## Use of AI
+
+I used Claude Code with DeepSeek 3.2 for this prototype. I think that's fair, as it leverages all my publicly available work on Software Analytics.
 
 ---
 
